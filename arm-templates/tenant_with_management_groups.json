@@ -14,7 +14,9 @@
                 { "Name": "Platforms Hello NonProd", "Id": "HelloPlatformsNonProd", "ParentManagementGroupId": "HelloPlatforms" },
                 { "Name": "Payments Hello", "Id": "HelloPayments", "ParentManagementGroupId": "Hello"},
                 { "Name": "Payments Hello Opex", "Id": "HelloPaymentsOpex", "ParentManagementGroupId": "HelloPayments" },
-                { "Name": "Payments Hello Capex", "Id": "HelloPaymentsCapex", "ParentManagementGroupId": "HelloPayments"}
+                { "Name": "Payments Hello Capex", "Id": "HelloPaymentsCapex", "ParentManagementGroupId": "HelloPayments"},
+                { "Name": "Hello Sandbox", "Id": "HelloSandbox", "ParentManagementGroupId": "Hello"},
+                { "Name": "Hello Archieve", "Id": "HelloArchieve", "ParentManagementGroupId": "Hello"}
             ]
         },
         "subscriptions": {
