@@ -1,0 +1,148 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-08-01/tenantDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "RootManagmentGroup": {
+            "type": "string",
+            "defaultValue": "Hello"
+        },
+        "ManagementGroups": {
+            "type": "array",
+            "defaultValue": [
+                { "Name": "Platforms Hello", "Id": "HelloPlatforms", "ParentManagementGroupId": "Hello" },
+                { "Name": "Platforms Hello Prod", "Id": "HelloPlatformsProd", "ParentManagementGroupId": "HelloPlatforms" },
+                { "Name": "Platforms Hello NonProd", "Id": "HelloPlatformsNonProd", "ParentManagementGroupId": "HelloPlatforms" },
+                { "Name": "Payments Hello", "Id": "HelloPayments", "ParentManagementGroupId": "Hello"},
+                { "Name": "Payments Hello Opex", "Id": "HelloPaymentsOpex", "ParentManagementGroupId": "HelloPayments" },
+                { "Name": "Payments Hello Capex", "Id": "HelloPaymentsCapex", "ParentManagementGroupId": "HelloPayments"}
+            ]
+        },
+        "subscriptions": {
+            "type": "array",
+            "defaultValue": [
+                { "SubscriptionId": "0b65b765-1294-4e4f-9dca-b513ef0ac3b9", "ManagementGroupId": "HelloPlatformsProd", "SubscriptionName": "HelloMarketplace", "PlatformName": "Marketplace", "ContactEmail":"noreply@foo.com", "Environment":"Production", "CostType":"Opex" , "MonthlyBudget": 30000, "CostAlertsEmail":["noreply@foo.com"]},
+                { "SubscriptionId": "1f7c433c-e913-42bb-9f16-ee54cf5913b9", "ManagementGroupId": "HelloPlatformsProd", "SubscriptionName": "HelloOrders", "PlatformName": "Orders", "ContactEmail":"noreply@foo.com", "Environment":"Production", "CostType":"Opex" , "MonthlyBudget": 40000, "CostAlertsEmail":["noreply@foo.com"]},
+                { "SubscriptionId": "fc2be19c-f9f0-420d-9ccc-b175e3e5498e", "ManagementGroupId": "HelloPlatformsProd", "SubscriptionName": "HelloPlatformEngineering", "PlatformName": "Engineering", "ContactEmail":"noreply@foo.com", "Environment":"Production", "CostType":"Opex" , "MonthlyBudget": 20000, "CostAlertsEmail":["noreply@foo.com"]},
+                { "SubscriptionId": "bc3d2d69-555c-4678-a68f-34085833d9ce", "ManagementGroupId": "HelloPlatformsNonProd", "SubscriptionName": "HelloMarketplaceNonProd", "PlatformName": "Marketplace", "ContactEmail":"noreply@foo.com", "Environment":"Non-Production", "CostType":"Capex" , "MonthlyBudget": 2000, "CostAlertsEmail":["noreply@foo.com"]},
+                { "SubscriptionId": "61efcc2f-f2ce-4eae-915b-656950cae015", "ManagementGroupId": "HelloPlatformsNonProd", "SubscriptionName": "HelloAppsNonProd", "PlatformName": "Apps", "ContactEmail":"noreply@foo.com", "Environment":"Non-Production", "CostType":"Capex" , "MonthlyBudget": 2000, "CostAlertsEmail":["noreply@foo.com"]},
+                { "SubscriptionId": "40adf8ce-e2ea-49b1-a84e-e17f98119729", "ManagementGroupId": "HelloPaymentsOpex", "SubscriptionName": "HelloFinance", "PlatformName": "Finance", "ContactEmail":"noreply@foo.com", "Environment":"Production", "CostType":"Opex" , "MonthlyBudget": 50000, "CostAlertsEmail":["noreply@foo.com"]},
+                { "SubscriptionId": "c365c73b-1aab-4a9b-ac31-4b8bcf48fbdc", "ManagementGroupId": "HelloPaymentsOpex", "SubscriptionName": "HelloPaymentsSecure", "PlatformName": "Payments", "ContactEmail":"noreply@foo.com", "Environment":"Production", "CostType":"Opex" , "MonthlyBudget": 30000, "CostAlertsEmail":["noreply@foo.com"]},
+                { "SubscriptionId": "53cd1729-8cf8-4fc7-b648-3017a8f0be0b", "ManagementGroupId": "HelloPaymentsCapex", "SubscriptionName": "HelloPaymentsDev", "PlatformName": "Payments", "ContactEmail":"noreply@foo.com", "Environment":"Non-Production", "CostType":"Capex" , "MonthlyBudget": 3000, "CostAlertsEmail":["noreply@foo.com"]},
+                { "SubscriptionId": "857ab2c1-be7c-408d-b463-43b08d866f33", "ManagementGroupId": "HelloPaymentsCapex", "SubscriptionName": "HelloPaymentsNonProd", "PlatformName": "Payments", "ContactEmail":"noreply@foo.com", "Environment":"Non-Production", "CostType":"Capex" , "MonthlyBudget": 1000, "CostAlertsEmail":["noreply@foo.com"]},
+                { "SubscriptionId": "dd47879e-07fe-4c27-8489-40ff43dce93b", "ManagementGroupId": "HelloPaymentsCapex", "SubscriptionName": "HelloPaymentsSecureNonProd", "PlatformName": "Payments", "ContactEmail":"noreply@foo.com", "Environment":"Non-Production", "CostType":"Capex", "MonthlyBudget": 3000, "CostAlertsEmail":["noreply@foo.com"] }
+            ]
+        }
+    },
+    "functions": [],
+    "resources": [
+        {
+            "type": "Microsoft.Management/managementGroups",
+            "apiVersion": "2020-02-01",
+            "name": "[parameters('RootManagmentGroup')]",
+            "properties": {
+                "displayName": "[parameters('RootManagmentGroup')]"
+            }
+        },
+        {
+            "type": "Microsoft.Management/managementGroups",
+            "apiVersion": "2020-02-01",
+            "name": "[parameters('ManagementGroups')[copyIndex()].Id]",
+            "dependsOn": ["[parameters('ManagementGroups')[copyIndex()].ParentManagementGroupId]"],
+            "copy": {
+                "name": "managmentgroups",
+                "count": "[length(parameters('ManagementGroups'))]"
+            },
+            "properties": {
+                "displayName": "[parameters('ManagementGroups')[copyIndex()].Name]",
+                "details": {
+                    "parent": {
+                        "id": "[tenantResourceId('Microsoft.Management/managementGroups', parameters('ManagementGroups')[copyIndex()].ParentManagementGroupId )]"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Management/managementGroups/subscriptions",
+            "apiVersion": "2020-02-01",
+            "name": "[concat( parameters('subscriptions')[copyIndex()].ManagementGroupId ,'/', parameters('subscriptions')[copyIndex()].SubscriptionId  )]",
+            "dependsOn": [
+                "[parameters('subscriptions')[copyIndex()].ManagementGroupId]"
+            ],
+            "copy": {
+                "name": "subscriptions_mgmgt_group_association",
+                "count": "[length(parameters('subscriptions'))]"
+            },
+            "properties": {}
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-07-01",
+            "name": "[parameters('subscriptions')[copyIndex()].SubscriptionId]",
+            "copy": {
+                "name":"Subscriptions",
+                "count": "[length(parameters('subscriptions'))]"
+            },
+            "location": "westus",
+            "subscriptionId": "[parameters('subscriptions')[copyIndex()].SubscriptionId]",
+            "dependsOn": [
+                "[parameters('subscriptions')[copyIndex()].ManagementGroupId]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "resources": [
+                        {
+                            "apiVersion": "2019-10-01",
+                            "type": "Microsoft.Resources/tags",
+                            "name": "default",
+                            "properties": {
+                                "tags": {
+                                    "Platform": "[parameters('subscriptions')[copyIndex()].PlatformName]",
+                                    "Environment": "[parameters('subscriptions')[copyIndex()].Environment]",
+                                    "CostType": "[parameters('subscriptions')[copyIndex()].CostType]"
+                                }
+                            }
+                        },
+                        {
+                            "type": "Microsoft.Consumption/budgets",
+                            "apiVersion": "2019-10-01",
+                            "name": "[concat('Subscription_Budget_',parameters('subscriptions')[copyIndex()].SubscriptionName)]",
+                            "properties": {
+                                "category": "Cost",
+                                "timeGrain": "BillingMonth",
+                                "amount": "[parameters('subscriptions')[copyIndex()].MonthlyBudget]",
+                                "timePeriod": {
+                                    "startDate": "2020-05-01T00:00:00.0Z"
+                                },
+                                "notifications": {
+                                    "Actual_GreaterThan_70_Percent": {
+                                        "enabled": true,
+                                        "operator": "GreaterThan",
+                                        "threshold": 70,
+                                        "contactEmails": "[parameters('subscriptions')[copyIndex()].CostAlertsEmail]",
+                                        "contactRoles": [],
+                                        "contactGroups": [],
+                                        "thresholdType": "Actual"
+                                    },
+                                    "Actual_GreaterThan_100_Percent": {
+                                        "enabled": true,
+                                        "operator": "GreaterThan",
+                                        "threshold": 100,
+                                        "contactEmails": "[parameters('subscriptions')[copyIndex()].CostAlertsEmail]",
+                                        "contactRoles": [],
+                                        "contactGroups": [],
+                                        "thresholdType": "Actual"
+                                    }
+                                }
+                            }
+                            
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "outputs": {}
+}
