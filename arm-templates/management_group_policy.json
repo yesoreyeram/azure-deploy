@@ -3,7 +3,9 @@
     "contentVersion": "1.0.0.0",
     "parameters": {},
     "functions": [],
-    "variables": {},
+    "variables": {
+        "mgScope": "[tenantResourceId('Microsoft.Management/managementGroups', 'HelloPlatforms')]"
+    },
     "resources": [
         {
             "type": "Microsoft.Authorization/policyDefinitions",
@@ -14,9 +16,9 @@
                 "description": "Allowed Locations",
                 "mode": "All",
                 "policyType": "Custom",
-                "policyRule":{
-                    "if" : {
-                        "not" : {
+                "policyRule": {
+                    "if": {
+                        "not": {
                             "field": "location",
                             "in": [
                                 "westus",
@@ -28,6 +30,23 @@
                         "effect": "audit"
                     }
                 }
+            }
+        },
+        {
+            "type": "Microsoft.Authorization/policyAssignments",
+            "apiVersion": "2019-09-01",
+            "name": "policyassignment_mg_helloplatforms_helloplatforms",
+            "dependsOn": [
+                "policy_allowedlocations"
+            ],
+            "properties": {
+                "displayName": "Allowed locations for HelloPlatforms",
+                "description": "Allowed locations for HelloPlatforms",
+                "scope": "[variables('mgScope')]",
+                "policyDefinitionId": "[extensionResourceId(variables('mgScope'), 'Microsoft.Authorization/policyDefinitions', 'policy_allowedlocations')]",
+                "notScopes" : [
+                    "/subscriptions/fc2be19c-f9f0-420d-9ccc-b175e3e5498e"
+                ]
             }
         }
     ],
