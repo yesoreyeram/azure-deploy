@@ -66,7 +66,7 @@
         },
         {
             "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2019-10-01",
+            "apiVersion": "2020-06-01",
             "name": "[concat('MGDeploy_',parameters('ManagementGroups')[copyIndex()].Id)]",
             "copy": {
                 "name":"ManagementGroups",
@@ -136,7 +136,7 @@
         },
         {
             "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2019-07-01",
+            "apiVersion": "2020-06-01",
             "name": "[parameters('subscriptions')[copyIndex()].SubscriptionId]",
             "copy": {
                 "name":"Subscriptions",
