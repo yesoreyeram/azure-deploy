@@ -35,7 +35,7 @@
         {
             "type": "Microsoft.Authorization/policyAssignments",
             "apiVersion": "2019-09-01",
-            "name": "[guid('policy_allowedlocations','helloplatforms')]",
+            "name": "pam_helloplat_allowedloc",
             "dependsOn": [
                 "policy_allowedlocations"
             ],
