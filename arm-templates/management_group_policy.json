@@ -1,0 +1,35 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {},
+    "functions": [],
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Authorization/policyDefinitions",
+            "apiVersion": "2018-03-01",
+            "name": "policy_allowedlocations",
+            "properties": {
+                "displayName": "Allowed Locations",
+                "description": "Allowed Locations",
+                "mode": "All",
+                "policyType": "Custom",
+                "policyRule":{
+                    "if" : {
+                        "not" : {
+                            "field": "location",
+                            "in": [
+                                "westus",
+                                "eastus"
+                            ]
+                        }
+                    },
+                    "then": {
+                        "effect": "audit"
+                    }
+                }
+            }
+        }
+    ],
+    "outputs": {}
+}

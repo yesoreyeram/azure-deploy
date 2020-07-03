@@ -1,0 +1,42 @@
+name: $(TeamProject)_$(BuildDefinitionName)_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
+
+trigger:
+  batch: true
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - arm-templates/management_group_policy.json
+    - azure-pipelines/management_group_policy.yml
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+  - stage : Build
+    jobs:
+      - job: Build
+        steps:
+          - task: PublishPipelineArtifact@1
+            inputs:
+              targetPath: $(System.DefaultWorkingDirectory)/arm-templates/
+              artifact: arm-templates
+  - stage : Deploy
+    jobs:
+      - deployment:  Deploy_ManagementGroup
+        environment: managementgroup-hello-platforms
+        pool:
+          vmImage: ubuntu-latest
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: AzureCLI@2
+                  inputs:
+                    azureSubscription: 'yesoreyeram-demo-helloplatform_governance'
+                    scriptType: 'pscore'
+                    scriptLocation: 'inlineScript'
+                    inlineScript: |
+                      az deployment mg create --name helloplatformdeployment --location WestUS --template-file "$(Pipeline.Workspace)/arm-templates/management_group_policy.json"
+                      exit $?;
