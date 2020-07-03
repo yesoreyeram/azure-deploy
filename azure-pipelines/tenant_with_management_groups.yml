@@ -39,4 +39,4 @@ stages:
                     scriptLocation: 'inlineScript'
                     inlineScript: |
                       az deployment tenant create --name demoTenantDeployment --location WestUS --template-file "$(Pipeline.Workspace)/arm-templates/tenant_with_management_groups.json"
-                      exit 0;
+                      exit $?;
