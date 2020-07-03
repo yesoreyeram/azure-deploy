@@ -154,14 +154,6 @@
                     "contentVersion": "1.0.0.0",
                     "resources": [
                         {
-                            "type": "Microsoft.Subscription/rename",
-                            "apiVersion": "2019-03-01-preview",
-                            "name": "default",
-                            "properties": {
-                                "SubscriptionName": "[parameters('subscriptions')[copyIndex()].SubscriptionName]"
-                            }
-                        },
-                        {
                             "apiVersion": "2020-06-01",
                             "type": "Microsoft.Resources/tags",
                             "name": "default",
