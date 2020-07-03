@@ -21,13 +21,16 @@
                         "not": {
                             "field": "location",
                             "in": [
+                                "global",
+                                "centralus",
+                                "eastus",
                                 "westus",
-                                "eastus"
+                                "westus2"
                             ]
                         }
                     },
                     "then": {
-                        "effect": "audit"
+                        "effect": "deny"
                     }
                 }
             }
