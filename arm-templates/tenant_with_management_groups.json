@@ -9,14 +9,14 @@
         "ManagementGroups": {
             "type": "array",
             "defaultValue": [
-                { "Name": "Platforms Hello", "Id": "HelloPlatforms", "ParentManagementGroupId": "Hello" },
-                { "Name": "Platforms Hello Prod", "Id": "HelloPlatformsProd", "ParentManagementGroupId": "HelloPlatforms" },
-                { "Name": "Platforms Hello NonProd", "Id": "HelloPlatformsNonProd", "ParentManagementGroupId": "HelloPlatforms" },
-                { "Name": "Payments Hello", "Id": "HelloPayments", "ParentManagementGroupId": "Hello"},
-                { "Name": "Payments Hello Opex", "Id": "HelloPaymentsOpex", "ParentManagementGroupId": "HelloPayments" },
-                { "Name": "Payments Hello Capex", "Id": "HelloPaymentsCapex", "ParentManagementGroupId": "HelloPayments"},
-                { "Name": "Hello Sandbox", "Id": "HelloSandbox", "ParentManagementGroupId": "Hello"},
-                { "Name": "Hello Archieve", "Id": "HelloArchieve", "ParentManagementGroupId": "Hello"}
+                { "Name": "Platforms Hello", "Id": "HelloPlatforms", "ParentManagementGroupId": "Hello" , "MonthlyBudget": 100000, "CostAlertsEmail":["noreply@foo.com"] },
+                { "Name": "Platforms Hello Prod", "Id": "HelloPlatformsProd", "ParentManagementGroupId": "HelloPlatforms" , "MonthlyBudget": 100000, "CostAlertsEmail":["noreply@foo.com"]  },
+                { "Name": "Platforms Hello NonProd", "Id": "HelloPlatformsNonProd", "ParentManagementGroupId": "HelloPlatforms" , "MonthlyBudget": 100000, "CostAlertsEmail":["noreply@foo.com"]  },
+                { "Name": "Payments Hello", "Id": "HelloPayments", "ParentManagementGroupId": "Hello" , "MonthlyBudget": 100000, "CostAlertsEmail":["noreply@foo.com"] },
+                { "Name": "Payments Hello Opex", "Id": "HelloPaymentsOpex", "ParentManagementGroupId": "HelloPayments" , "MonthlyBudget": 100000, "CostAlertsEmail":["noreply@foo.com"]  },
+                { "Name": "Payments Hello Capex", "Id": "HelloPaymentsCapex", "ParentManagementGroupId": "HelloPayments" , "MonthlyBudget": 100000, "CostAlertsEmail":["noreply@foo.com"] },
+                { "Name": "Hello Sandbox", "Id": "HelloSandbox", "ParentManagementGroupId": "Hello" , "MonthlyBudget": 100000, "CostAlertsEmail":["noreply@foo.com"] },
+                { "Name": "Hello Archieve", "Id": "HelloArchieve", "ParentManagementGroupId": "Hello" , "MonthlyBudget": 100000, "CostAlertsEmail":["noreply@foo.com"] }
             ]
         },
         "subscriptions": {
@@ -61,6 +61,63 @@
                     "parent": {
                         "id": "[tenantResourceId('Microsoft.Management/managementGroups', parameters('ManagementGroups')[copyIndex()].ParentManagementGroupId )]"
                     }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "name": "[concat('MGDeploy_',parameters('ManagementGroups')[copyIndex()].Id)]",
+            "copy": {
+                "name":"ManagementGroups",
+                "count": "[length(parameters('ManagementGroups'))]"
+            },
+            "scope": "[concat('Microsoft.Management/managementGroups/', parameters('ManagementGroups')[copyIndex()].Id)]",
+            "location": "westus",
+            "dependsOn": [
+                "[parameters('ManagementGroups')[copyIndex()].Id]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "resources": [
+                        {
+                            "type": "Microsoft.Consumption/budgets",
+                            "apiVersion": "2019-10-01",
+                            "name": "[concat('MG_Budget_',parameters('ManagementGroups')[copyIndex()].Id)]",
+                            "properties": {
+                                "category": "Cost",
+                                "timeGrain": "BillingMonth",
+                                "amount": "[parameters('ManagementGroups')[copyIndex()].MonthlyBudget]",
+                                "timePeriod": {
+                                    "startDate": "2020-05-01T00:00:00.0Z"
+                                },
+                                "notifications": {
+                                    "Actual_GreaterThan_70_Percent": {
+                                        "enabled": true,
+                                        "operator": "GreaterThan",
+                                        "threshold": 70,
+                                        "contactEmails": "[parameters('ManagementGroups')[copyIndex()].CostAlertsEmail]",
+                                        "contactRoles": [],
+                                        "contactGroups": [],
+                                        "thresholdType": "Actual"
+                                    },
+                                    "Actual_GreaterThan_100_Percent": {
+                                        "enabled": true,
+                                        "operator": "GreaterThan",
+                                        "threshold": 100,
+                                        "contactEmails": "[parameters('subscriptions')[copyIndex()].CostAlertsEmail]",
+                                        "contactRoles": [],
+                                        "contactGroups": [],
+                                        "thresholdType": "Actual"
+                                    }
+                                }
+                            }
+                            
+                        }
+                    ]
                 }
             }
         },
