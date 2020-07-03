@@ -154,7 +154,7 @@
                     "contentVersion": "1.0.0.0",
                     "resources": [
                         {
-                            "apiVersion": "2019-10-01",
+                            "apiVersion": "2020-06-01",
                             "type": "Microsoft.Resources/tags",
                             "name": "default",
                             "properties": {
