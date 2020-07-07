@@ -39,4 +39,4 @@ stages:
                     scriptLocation: 'inlineScript'
                     inlineScript: |
                       az deployment mg create --name helloplatformdeployment --management-group-id HelloPlatforms --location WestUS --template-file "$(Pipeline.Workspace)/arm-templates/management_group_policy.json"
-                      exit $?;
+                      exit $LASTEXITCODE;
