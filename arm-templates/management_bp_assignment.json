@@ -34,60 +34,60 @@
                             "apiVersion": "2019-10-01",
                             "name": "rg-pd-bp-managment",
                             "location": "eastus"
-                        },
-                        {
-                            "type": "Microsoft.Resources/deployments",
-                            "apiVersion": "2019-05-01",
-                            "name": "bpdeployment2",
-                            "resourceGroup": "rg-pd-bp-managment",
-                            "dependsOn": ["rg-pd-bp-managment"],
-                            "properties": {
-                                "mode": "Incremental",
-                                "template": {
-                                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-                                    "contentVersion": "1.0.0.0",
-                                    "resources": [
-                                        {
-                                            "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
-                                            "name": "[variables('umi')]",
-                                            "apiVersion": "2018-11-30",
-                                            "location": "eastus"
-                                        }
-                                    ]
-                                }
-                            }
-                        },
-                        {
-                            "type": "Microsoft.Authorization/roleAssignments",
-                            "apiVersion": "2017-09-01",
-                            "name":"[variables('umi')]",
-                            "dependsOn": [ "bpdeployment2" ],
-                            "properties": {
-                                "principalId": "[reference(concat('/subscriptions/',variables('subid'),'/resourceGroups/rg-pd-bp-managment/providers/Microsoft.ManagedIdentity/userAssignedIdentities/',variables('umi')),'2018-11-30').principalId]",
-                                "roleDefinitionId": "[concat('/providers/Microsoft.Authorization/roleDefinitions/',variables('owner'))]"
-                            }
-                        },
-                        {
-                            "type": "Microsoft.Blueprint/blueprintAssignments",
-                            "apiVersion": "2018-11-01-preview",
-                            "name": "poa_test_HelloAppsNonProd2",
-                            "location": "eastus",
-                            "dependsOn": [  "bpdeployment2", "[variables('umi')]" ],
-                            "identity": {
-                                "type": "userAssigned",
-                                "userAssignedIdentities": {
-                                    "[concat('/subscriptions/',variables('subid'),'/resourceGroups/rg-pd-bp-managment/providers/Microsoft.ManagedIdentity/userAssignedIdentities/',variables('umi'))]":{}
-                                }
-                            },
-                            "properties": {
-                                "locks": {
-                                    "mode": "AllResourcesDoNotDelete"
-                                },
-                                "parameters": {},
-                                "resourceGroups": {},
-                                "blueprintId":"[concat('/providers/Microsoft.Management/managementGroups/HelloPlatformsNonProd/providers/Microsoft.Blueprint/blueprints/test/versions/v8.0')]"
-                            }
                         }
+                        // {
+                        //     "type": "Microsoft.Resources/deployments",
+                        //     "apiVersion": "2019-05-01",
+                        //     "name": "bpdeployment2",
+                        //     "resourceGroup": "rg-pd-bp-managment",
+                        //     "dependsOn": ["rg-pd-bp-managment"],
+                        //     "properties": {
+                        //         "mode": "Incremental",
+                        //         "template": {
+                        //             "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                        //             "contentVersion": "1.0.0.0",
+                        //             "resources": [
+                        //                 {
+                        //                     "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
+                        //                     "name": "[variables('umi')]",
+                        //                     "apiVersion": "2018-11-30",
+                        //                     "location": "eastus"
+                        //                 }
+                        //             ]
+                        //         }
+                        //     }
+                        // },
+                        // {
+                        //     "type": "Microsoft.Authorization/roleAssignments",
+                        //     "apiVersion": "2017-09-01",
+                        //     "name":"[variables('umi')]",
+                        //     "dependsOn": [ "bpdeployment2" ],
+                        //     "properties": {
+                        //         "principalId": "[reference(concat('/subscriptions/',variables('subid'),'/resourceGroups/rg-pd-bp-managment/providers/Microsoft.ManagedIdentity/userAssignedIdentities/',variables('umi')),'2018-11-30').principalId]",
+                        //         "roleDefinitionId": "[concat('/providers/Microsoft.Authorization/roleDefinitions/',variables('owner'))]"
+                        //     }
+                        // },
+                        // {
+                        //     "type": "Microsoft.Blueprint/blueprintAssignments",
+                        //     "apiVersion": "2018-11-01-preview",
+                        //     "name": "poa_test_HelloAppsNonProd2",
+                        //     "location": "eastus",
+                        //     "dependsOn": [  "bpdeployment2", "[variables('umi')]" ],
+                        //     "identity": {
+                        //         "type": "userAssigned",
+                        //         "userAssignedIdentities": {
+                        //             "[concat('/subscriptions/',variables('subid'),'/resourceGroups/rg-pd-bp-managment/providers/Microsoft.ManagedIdentity/userAssignedIdentities/',variables('umi'))]":{}
+                        //         }
+                        //     },
+                        //     "properties": {
+                        //         "locks": {
+                        //             "mode": "AllResourcesDoNotDelete"
+                        //         },
+                        //         "parameters": {},
+                        //         "resourceGroups": {},
+                        //         "blueprintId":"[concat('/providers/Microsoft.Management/managementGroups/HelloPlatformsNonProd/providers/Microsoft.Blueprint/blueprints/test/versions/v8.0')]"
+                        //     }
+                        // }
                     ]
                 }
             }
