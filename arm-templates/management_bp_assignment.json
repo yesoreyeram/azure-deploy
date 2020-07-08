@@ -4,14 +4,17 @@
     "parameters": {
         "subscriptionId": {
             "type": "string"
+        },
+        "UMIID": {
+            "type": "string",
+            "defaultValue": "[concat(parameters('subscriptionId'),'-obpumi')]"
         }
     },
     "functions": [],
     "variables": {
         "subid": "[parameters('subscriptionId')]",
-        "spnid": "b5378042-a075-408a-9e02-971474eebee6",
         "owner": "8e3af657-a8ff-443c-a75c-2fe8c4bcb635",
-        "umi": "[guid(variables('subid'),'Owner',variables('spnid'),'blueprints-umi')]"
+        "umi": "[parameters('UMIID')]"
     },
     "resources": [
         {
