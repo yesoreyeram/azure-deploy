@@ -72,7 +72,7 @@
                             "apiVersion": "2018-11-01-preview",
                             "name": "poa_test_HelloAppsNonProd2",
                             "location": "eastus",
-                            "dependsOn": [ "[variables('umi')]" ],
+                            "dependsOn": [  "bpdeployment2", "[variables('umi')]" ],
                             "identity": {
                                 "type": "userAssigned",
                                 "userAssignedIdentities": {
