@@ -7,6 +7,8 @@ trigger:
     - master
   paths:
     include:
+
+    - arm-templates/management_bp.json
     - arm-templates/management_group_policy.json
     - azure-pipelines/management_group_policy.yml
 
@@ -32,6 +34,15 @@ stages:
           runOnce:
             deploy:
               steps:
+                - task: AzureCLI@2
+                  displayName: Blueprint
+                  inputs:
+                    azureSubscription: 'yesoreyeram-demo-helloplatform_governance'
+                    scriptType: 'pscore'
+                    scriptLocation: 'inlineScript'
+                    inlineScript: |
+                      az deployment mg create --name helloplatformdeploymentbp --management-group-id Hello --location WestUS --template-file "$(Pipeline.Workspace)/arm-templates/management_bp.json"
+                      exit $LASTEXITCODE;
                 - task: AzureCLI@2
                   inputs:
                     azureSubscription: 'yesoreyeram-demo-helloplatform_governance'

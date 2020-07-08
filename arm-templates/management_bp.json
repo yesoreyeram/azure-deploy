@@ -1,0 +1,22 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {},
+    "functions": [],
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Blueprint/blueprints",
+            "apiVersion": "2018-11-01-preview",
+            "name": "test",
+            "properties": {
+                "displayName": "Test Blueprint",
+                "description": "Test Blueprint details",
+                "targetScope": "subscription",
+                "parameters": {},
+                "resourceGroups": {}
+            }
+        }
+    ],
+    "outputs": {}
+}
