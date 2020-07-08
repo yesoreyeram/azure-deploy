@@ -15,7 +15,23 @@
                 "targetScope": "subscription",
                 "parameters": {},
                 "resourceGroups": {}
-            }
+            },
+            "resources": [
+                {
+                    "name": "v2.0",
+                    "type": "Microsoft.Blueprint/blueprints/versions",
+                    "apiVersion": "2018-11-01-preview",
+                    "properties": {
+                        "displayName": "Version 2.0",
+                        "description": "Version 2.0 details",
+                        "targetScope": "subscriptions",
+                        "parameters": {},
+                        "resourceGroups": {},
+                        "blueprintName": "test",
+                        "changeNotes": "Updated version"
+                    }
+                }
+            ]
         }
     ],
     "outputs": {}
