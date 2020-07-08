@@ -1,10 +1,14 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
-    "parameters": {},
+    "parameters": {
+        "subscriptionId": {
+            "type": "string"
+        }
+    },
     "functions": [],
     "variables": {
-        "subid": "61efcc2f-f2ce-4eae-915b-656950cae015",
+        "subid": "[parameters('subscriptionId')]",
         "spnid": "b5378042-a075-408a-9e02-971474eebee6",
         "owner": "8e3af657-a8ff-443c-a75c-2fe8c4bcb635",
         "umi": "[guid(variables('subid'),'Owner',variables('spnid'),'blueprints-umi')]"
@@ -56,7 +60,7 @@
                             "name":"[variables('umi')]",
                             "dependsOn": [ "bpdeployment2" ],
                             "properties": {
-                                "principalId": "[reference(concat('/subscriptions/61efcc2f-f2ce-4eae-915b-656950cae015/resourceGroups/rg-pd-bp-managment/providers/Microsoft.ManagedIdentity/userAssignedIdentities/',variables('umi')),'2018-11-30').principalId]",
+                                "principalId": "[reference(concat('/subscriptions/',variables('subid'),'/resourceGroups/rg-pd-bp-managment/providers/Microsoft.ManagedIdentity/userAssignedIdentities/',variables('umi')),'2018-11-30').principalId]",
                                 "roleDefinitionId": "[concat('/providers/Microsoft.Authorization/roleDefinitions/',variables('owner'))]"
                             }
                         },
@@ -69,7 +73,7 @@
                             "identity": {
                                 "type": "userAssigned",
                                 "userAssignedIdentities": {
-                                    "[concat('/subscriptions/61efcc2f-f2ce-4eae-915b-656950cae015/resourceGroups/rg-pd-bp-managment/providers/Microsoft.ManagedIdentity/userAssignedIdentities/',variables('umi'))]":{}
+                                    "[concat('/subscriptions/',variables('subid'),'/resourceGroups/rg-pd-bp-managment/providers/Microsoft.ManagedIdentity/userAssignedIdentities/',variables('umi'))]":{}
                                 }
                             },
                             "properties": {
