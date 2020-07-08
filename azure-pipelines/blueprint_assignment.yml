@@ -39,5 +39,5 @@ stages:
                     scriptType: 'pscore'
                     scriptLocation: 'inlineScript'
                     inlineScript: |
-                      az deployment mg create --name helloplatformdeployment --management-group-id HelloPlatforms --location WestUS --template-file "$(Pipeline.Workspace)/arm-templates/management_bp_assignment.json" --parameters '{ \"subscriptionId\": \"61efcc2f-f2ce-4eae-915b-656950cae015\" }'
+                      az deployment mg create --name helloplatformdeployment --management-group-id HelloPlatforms --location WestUS --template-file "$(Pipeline.Workspace)/arm-templates/management_bp_assignment.json" --parameters subscriptionId=61efcc2f-f2ce-4eae-915b-656950cae015;
                       exit $LASTEXITCODE;
