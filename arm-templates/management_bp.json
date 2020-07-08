@@ -18,7 +18,7 @@
             },
             "resources": [
                 {
-                    "name": "v2.0",
+                    "name": "test/v2.0",
                     "type": "Microsoft.Blueprint/blueprints/versions",
                     "apiVersion": "2018-11-01-preview",
                     "properties": {

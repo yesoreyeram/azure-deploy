@@ -43,11 +43,11 @@ stages:
                     inlineScript: |
                       az deployment mg create --name helloplatformdeploymentbp --management-group-id Hello --location WestUS --template-file "$(Pipeline.Workspace)/arm-templates/management_bp.json"
                       exit $LASTEXITCODE;
-                - task: AzureCLI@2
-                  inputs:
-                    azureSubscription: 'yesoreyeram-demo-helloplatform_governance'
-                    scriptType: 'pscore'
-                    scriptLocation: 'inlineScript'
-                    inlineScript: |
-                      az deployment mg create --name helloplatformdeployment --management-group-id HelloPlatforms --location WestUS --template-file "$(Pipeline.Workspace)/arm-templates/management_group_policy.json"
-                      exit $LASTEXITCODE;
+                # - task: AzureCLI@2
+                #   inputs:
+                #     azureSubscription: 'yesoreyeram-demo-helloplatform_governance'
+                #     scriptType: 'pscore'
+                #     scriptLocation: 'inlineScript'
+                #     inlineScript: |
+                #       az deployment mg create --name helloplatformdeployment --management-group-id HelloPlatforms --location WestUS --template-file "$(Pipeline.Workspace)/arm-templates/management_group_policy.json"
+                #       exit $LASTEXITCODE;
