@@ -9,6 +9,8 @@ trigger:
     include:
     - blueprints/defentions/*
     - blueprints/deployment/blueprints_defentions.yml
+    exclude:
+    - blueprints/defenitions/versions.json
 
 pool:
   vmImage: 'ubuntu-latest'
