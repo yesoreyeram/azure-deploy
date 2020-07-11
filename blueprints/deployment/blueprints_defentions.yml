@@ -39,7 +39,7 @@ stages:
                     scriptType: 'pscore'
                     scriptLocation: 'inlineScript'
                     inlineScript: |
-                      az deployment mg create --name "$(Build.BuildId)" --management-group-id Hello--location WestUS --template-file "$(Pipeline.Workspace)/blueprints/defentions/monitoring-infrastructure.json"
+                      az deployment mg create --name "$(Build.BuildId)" --management-group-id Hello --location WestUS --template-file "$(Pipeline.Workspace)/blueprints/defentions/monitoring-infrastructure.json"
                       exit $LASTEXITCODE;
 
                 - task: AzureCLI@2
@@ -49,7 +49,7 @@ stages:
                     scriptType: 'pscore'
                     scriptLocation: 'inlineScript'
                     inlineScript: |
-                      az deployment mg create --name "$(Build.BuildId)" --management-group-id Hello--location WestUS --template-file "$(Pipeline.Workspace)/blueprints/defentions/security.json"
+                      az deployment mg create --name "$(Build.BuildId)" --management-group-id Hello --location WestUS --template-file "$(Pipeline.Workspace)/blueprints/defentions/security.json"
                       exit $LASTEXITCODE;
 
                 - task: AzureCLI@2
@@ -59,7 +59,7 @@ stages:
                     scriptType: 'pscore'
                     scriptLocation: 'inlineScript'
                     inlineScript: |
-                      az deployment mg create --name "$(Build.BuildId)" --management-group-id Hello--location WestUS --template-file "$(Pipeline.Workspace)/blueprints/defentions/network.json"
+                      az deployment mg create --name "$(Build.BuildId)" --management-group-id Hello --location WestUS --template-file "$(Pipeline.Workspace)/blueprints/defentions/network.json"
                       exit $LASTEXITCODE;
 
                 - task: AzureCLI@2
@@ -69,6 +69,6 @@ stages:
                     scriptType: 'pscore'
                     scriptLocation: 'inlineScript'
                     inlineScript: |
-                      az deployment mg create --name "$(Build.BuildId)" --management-group-id Hello--location WestUS --template-file "$(Pipeline.Workspace)/blueprints/defentions/devops.json"
+                      az deployment mg create --name "$(Build.BuildId)" --management-group-id Hello --location WestUS --template-file "$(Pipeline.Workspace)/blueprints/defentions/devops.json"
                       exit $LASTEXITCODE;
   
