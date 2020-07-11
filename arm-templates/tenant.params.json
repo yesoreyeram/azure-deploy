@@ -1,0 +1,36 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "RootManagmentGroup": {
+            "value": "Hello"
+        },
+        "ManagementGroups": {
+            "value": [
+                { "Name": "Platforms Hello", "Id": "HelloPlatforms", "ParentManagementGroupId": "Hello" , "MonthlyBudget": 100000, "CostAlertsEmail":["noreply@foo.com"] },
+                { "Name": "Platforms Hello Prod", "Id": "HelloPlatformsProd", "ParentManagementGroupId": "HelloPlatforms" , "MonthlyBudget": 100000, "CostAlertsEmail":["noreply@foo.com"]  },
+                { "Name": "Platforms Hello NonProd", "Id": "HelloPlatformsNonProd", "ParentManagementGroupId": "HelloPlatforms" , "MonthlyBudget": 100000, "CostAlertsEmail":["noreply@foo.com"]  },
+                { "Name": "Payments Hello", "Id": "HelloPayments", "ParentManagementGroupId": "Hello" , "MonthlyBudget": 100000, "CostAlertsEmail":["noreply@foo.com"] },
+                { "Name": "Payments Hello Opex", "Id": "HelloPaymentsOpex", "ParentManagementGroupId": "HelloPayments" , "MonthlyBudget": 100000, "CostAlertsEmail":["noreply@foo.com"]  },
+                { "Name": "Payments Hello Capex", "Id": "HelloPaymentsCapex", "ParentManagementGroupId": "HelloPayments" , "MonthlyBudget": 100000, "CostAlertsEmail":["noreply@foo.com"] },
+                { "Name": "Hello Sandbox", "Id": "HelloSandbox", "ParentManagementGroupId": "Hello" , "MonthlyBudget": 100000, "CostAlertsEmail":["noreply@foo.com"] },
+                { "Name": "Hello Archieve", "Id": "HelloArchieve", "ParentManagementGroupId": "Hello" , "MonthlyBudget": 100000, "CostAlertsEmail":["noreply@foo.com"] }
+            ]
+        },
+        "subscriptions": {
+            "value": [
+                { "SubscriptionId": "0b65b765-1294-4e4f-9dca-b513ef0ac3b9", "ManagementGroupId": "HelloPlatformsProd", "SubscriptionName": "HelloMarketplace", "PlatformName": "Marketplace", "ContactEmail":"noreply@foo.com", "Environment":"Production", "CostType":"Opex" , "MonthlyBudget": 30000, "CostAlertsEmail":["noreply@foo.com"]},
+                { "SubscriptionId": "1f7c433c-e913-42bb-9f16-ee54cf5913b9", "ManagementGroupId": "HelloPlatformsProd", "SubscriptionName": "HelloOrders", "PlatformName": "Orders", "ContactEmail":"noreply@foo.com", "Environment":"Production", "CostType":"Opex" , "MonthlyBudget": 40000, "CostAlertsEmail":["noreply@foo.com"]},
+                { "SubscriptionId": "fc2be19c-f9f0-420d-9ccc-b175e3e5498e", "ManagementGroupId": "HelloPlatformsProd", "SubscriptionName": "HelloPlatformEngineering", "PlatformName": "Engineering", "ContactEmail":"noreply@foo.com", "Environment":"Production", "CostType":"Opex" , "MonthlyBudget": 20000, "CostAlertsEmail":["noreply@foo.com"]},
+                { "SubscriptionId": "bc3d2d69-555c-4678-a68f-34085833d9ce", "ManagementGroupId": "HelloPlatformsNonProd", "SubscriptionName": "HelloMarketplaceNonProd", "PlatformName": "Marketplace", "ContactEmail":"noreply@foo.com", "Environment":"Non-Production", "CostType":"Capex" , "MonthlyBudget": 2000, "CostAlertsEmail":["noreply@foo.com"]},
+                { "SubscriptionId": "61efcc2f-f2ce-4eae-915b-656950cae015", "ManagementGroupId": "HelloPlatformsNonProd", "SubscriptionName": "HelloAppsNonProd", "PlatformName": "Apps", "ContactEmail":"noreply@foo.com", "Environment":"Non-Production", "CostType":"Capex" , "MonthlyBudget": 2000, "CostAlertsEmail":["noreply@foo.com"]},
+                { "SubscriptionId": "40adf8ce-e2ea-49b1-a84e-e17f98119729", "ManagementGroupId": "HelloPaymentsOpex", "SubscriptionName": "HelloFinance", "PlatformName": "Finance", "ContactEmail":"noreply@foo.com", "Environment":"Production", "CostType":"Opex" , "MonthlyBudget": 50000, "CostAlertsEmail":["noreply@foo.com"]},
+                { "SubscriptionId": "c365c73b-1aab-4a9b-ac31-4b8bcf48fbdc", "ManagementGroupId": "HelloPaymentsOpex", "SubscriptionName": "HelloPaymentsSecure", "PlatformName": "Payments", "ContactEmail":"noreply@foo.com", "Environment":"Production", "CostType":"Opex" , "MonthlyBudget": 30000, "CostAlertsEmail":["noreply@foo.com"]},
+                { "SubscriptionId": "53cd1729-8cf8-4fc7-b648-3017a8f0be0b", "ManagementGroupId": "HelloPaymentsCapex", "SubscriptionName": "HelloPaymentsDev", "PlatformName": "Payments", "ContactEmail":"noreply@foo.com", "Environment":"Non-Production", "CostType":"Capex" , "MonthlyBudget": 3000, "CostAlertsEmail":["noreply@foo.com"]},
+                { "SubscriptionId": "857ab2c1-be7c-408d-b463-43b08d866f33", "ManagementGroupId": "HelloPaymentsCapex", "SubscriptionName": "HelloPaymentsNonProd", "PlatformName": "Payments", "ContactEmail":"noreply@foo.com", "Environment":"Non-Production", "CostType":"Capex" , "MonthlyBudget": 1000, "CostAlertsEmail":["noreply@foo.com"]},
+                { "SubscriptionId": "dd47879e-07fe-4c27-8489-40ff43dce93b", "ManagementGroupId": "HelloPaymentsCapex", "SubscriptionName": "HelloPaymentsSecureNonProd", "PlatformName": "Payments", "ContactEmail":"noreply@foo.com", "Environment":"Non-Production", "CostType":"Capex", "MonthlyBudget": 3000, "CostAlertsEmail":["noreply@foo.com"] },
+                { "SubscriptionId": "d9110aab-e2a9-445f-8bb8-a82b04f09418", "ManagementGroupId": "HelloSandbox", "SubscriptionName": "HelloAppPOC", "PlatformName": "Enginering", "ContactEmail":"noreply@foo.com", "Environment":"Non-Production", "CostType":"Capex", "MonthlyBudget": 1000, "CostAlertsEmail":["noreply@foo.com"] }
+            ]
+        }
+    }
+}
