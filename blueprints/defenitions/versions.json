@@ -22,7 +22,7 @@
         {
             "type": "Microsoft.Blueprint/blueprints/versions",
             "apiVersion": "2018-11-01-preview",
-            "name": "version",
+            "name": "[concat(parameters('defentions')[copyIndex()].BlueprintName,'/',parameters('defentions')[copyIndex()].BlueprintVersion)]",
             "condition": "[equals(parameters('defentions')[copyIndex()].BlueprintName,parameters('blueprintName'))]",
             "copy": {
                 "name": "blueprintdefentions",
@@ -34,6 +34,5 @@
                 "targetScope": "subscription"
             }
         }
-    ],
-    "outputs": {}
+    ]
 }
