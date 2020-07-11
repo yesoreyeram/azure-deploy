@@ -1,0 +1,39 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "blueprintName": {
+            "type": "string"
+        },
+        "changeNotes": {
+            "type": "string"
+        },
+        "defentions": {
+            "type": "array",
+            "defaultValue": [
+                { "BlueprintName" : "monitoring-infrastructure", "BlueprintVersion": "v0.0.1" },
+                { "BlueprintName" : "security", "BlueprintVersion": "v0.0.0" },
+                { "BlueprintName" : "network", "BlueprintVersion": "v0.0.0" },
+                { "BlueprintName" : "devops", "BlueprintVersion": "v0.0.0" }
+            ]
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Blueprint/blueprints/versions",
+            "apiVersion": "2018-11-01-preview",
+            "name": "version",
+            "condition": "[equals(parameters('defentions')[copyIndex()].BlueprintName,parameters('blueprintName'))]",
+            "copy": {
+                "name": "blueprintdefentions",
+                "count": "[length(parameters('defentions'))]"
+            },
+            "properties": {
+                "blueprintName": "[parameters('defentions')[copyIndex()].BlueprintName]",
+                "changeNotes": "[parameters('changeNotes')]",
+                "targetScope": "subscription"
+            }
+        }
+    ],
+    "outputs": {}
+}

@@ -1,0 +1,42 @@
+name: $(TeamProject)_$(BuildDefinitionName)_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
+
+trigger:
+  batch: true
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - blueprints/deployment/blueprints_versions.yml
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+  - stage : Build
+    jobs:
+      - job: Build
+        steps:
+          - task: PublishPipelineArtifact@1
+            inputs:
+              targetPath: $(System.DefaultWorkingDirectory)/blueprints/
+              artifact: blueprints
+  - stage : Deploy
+    jobs:
+      - deployment:  Deploy_Blueprint_Versions
+        environment: managementgroup-hello
+        pool:
+          vmImage: ubuntu-latest
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: AzureCLI@2
+                  displayName: Blueprint versions
+                  inputs:
+                    azureSubscription: 'yesoreyeram-demo-helloplatform_governance'
+                    scriptType: 'pscore'
+                    scriptLocation: 'inlineScript'
+                    inlineScript: |
+                      az deployment mg create --name "$(Build.BuildId)" --management-group-id Hello --location WestUS --template-file "$(Pipeline.Workspace)/blueprints/defenitions/versions.json" --parameters blueprintName=monitoring-infrastructure changeNotes="First version of M&A Blueprint"
+                      exit $LASTEXITCODE;
