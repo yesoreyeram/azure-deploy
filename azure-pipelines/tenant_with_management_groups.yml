@@ -38,5 +38,5 @@ stages:
                     scriptType: 'pscore'
                     scriptLocation: 'inlineScript'
                     inlineScript: |
-                      az deployment tenant create --name demoTenantDeployment --location WestUS --template-file "$(Pipeline.Workspace)/arm-templates/tenant_with_management_groups.json"
+                      az deployment tenant create --name "$(Build.BuildId)" --location WestUS --template-file "$(Pipeline.Workspace)/arm-templates/tenant_with_management_groups.json" --parameters "$(Pipeline.Workspace)/arm-templates/tenant.params.json"
                       exit $LASTEXITCODE;
