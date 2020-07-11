@@ -38,8 +38,8 @@ stages:
                     scriptType: 'pscore'
                     scriptLocation: 'inlineScript'
                     inlineScript: |
-                      # az deployment mg create --name "$(Build.BuildId)" --management-group-id Hello --location WestUS --template-file "$(Pipeline.Workspace)/blueprints/defenitions/versions.json" --parameters blueprintName=monitoring-infrastructure version="v0.0.1" changeNotes="First version of M&A Blueprint"
-                      az deployment mg create --name "$(Build.BuildId)" --management-group-id Hello --location WestUS --template-file "$(Pipeline.Workspace)/blueprints/defenitions/versions.json" --parameters blueprintName=security version="v0.0.1" changeNotes="First version of Security Blueprint"
+                      az deployment mg create --name "$(Build.BuildId)" --management-group-id Hello --location WestUS --template-file "$(Pipeline.Workspace)/blueprints/defenitions/versions.json" --parameters blueprintName=monitoring-infrastructure version="v0.0.2" changeNotes="Second version of M&A Blueprint"
+                      # az deployment mg create --name "$(Build.BuildId)" --management-group-id Hello --location WestUS --template-file "$(Pipeline.Workspace)/blueprints/defenitions/versions.json" --parameters blueprintName=security version="v0.0.1" changeNotes="First version of Security Blueprint"
                       # az deployment mg create --name "$(Build.BuildId)" --management-group-id Hello --location WestUS --template-file "$(Pipeline.Workspace)/blueprints/defenitions/versions.json" --parameters blueprintName=network version="v0.0.0" changeNotes="First version of Network Blueprint"
                       # az deployment mg create --name "$(Build.BuildId)" --management-group-id Hello --location WestUS --template-file "$(Pipeline.Workspace)/blueprints/defenitions/versions.json" --parameters blueprintName=devops version="v0.0.0" changeNotes="First version of Devops Blueprint"
                       exit $LASTEXITCODE;
