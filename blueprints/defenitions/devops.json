@@ -1,0 +1,24 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {},
+    "functions": [],
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Blueprint/blueprints",
+            "apiVersion": "2017-11-11-preview",
+            "name": "devops",
+            "properties": {
+                "displayName": "Devops",
+                "description": "Devops blueprint",
+                "targetScope": "subscription",
+                "layout": {},
+                "parameters": {},
+                "resourceGroups": {},
+                "versions": {}
+            }
+        }
+    ],
+    "outputs": {}
+}

@@ -1,0 +1,24 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {},
+    "functions": [],
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Blueprint/blueprints",
+            "apiVersion": "2017-11-11-preview",
+            "name": "monitoring-infrastructure",
+            "properties": {
+                "displayName": "Monitoring Infrastructure",
+                "description": "Blueprint for monitoring infrastructure, provides cental monitoring workspaces and monitoring resources",
+                "targetScope": "subscription",
+                "layout": {},
+                "parameters": {},
+                "resourceGroups": {},
+                "versions": {}
+            }
+        }
+    ],
+    "outputs": {}
+}

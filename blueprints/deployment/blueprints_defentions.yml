@@ -1,0 +1,74 @@
+name: $(TeamProject)_$(BuildDefinitionName)_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
+
+trigger:
+  batch: true
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - blueprints/defentions/*
+    - blueprints/deployment/blueprints_defentions.yml
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+  - stage : Build
+    jobs:
+      - job: Build
+        steps:
+          - task: PublishPipelineArtifact@1
+            inputs:
+              targetPath: $(System.DefaultWorkingDirectory)/blueprints/
+              artifact: blueprints
+  - stage : Deploy
+    jobs:
+      - deployment:  Deploy_Tenant
+        environment: tenant-demo
+        pool:
+          vmImage: ubuntu-latest
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: AzureCLI@2
+                  displayName: Monitoring Infra Blueprint
+                  inputs:
+                    azureSubscription: 'yesoreyeram-demo-helloplatform_governance'
+                    scriptType: 'pscore'
+                    scriptLocation: 'inlineScript'
+                    inlineScript: |
+                      az deployment mg create --name "$(Build.BuildId)" --management-group-id Hello--location WestUS --template-file "$(Pipeline.Workspace)/blueprints/defentions/monitoring-infrastructure.json"
+                      exit $LASTEXITCODE;
+
+                - task: AzureCLI@2
+                  displayName: Security Blueprint
+                  inputs:
+                    azureSubscription: 'yesoreyeram-demo-helloplatform_governance'
+                    scriptType: 'pscore'
+                    scriptLocation: 'inlineScript'
+                    inlineScript: |
+                      az deployment mg create --name "$(Build.BuildId)" --management-group-id Hello--location WestUS --template-file "$(Pipeline.Workspace)/blueprints/defentions/security.json"
+                      exit $LASTEXITCODE;
+
+                - task: AzureCLI@2
+                  displayName: Network Blueprint
+                  inputs:
+                    azureSubscription: 'yesoreyeram-demo-helloplatform_governance'
+                    scriptType: 'pscore'
+                    scriptLocation: 'inlineScript'
+                    inlineScript: |
+                      az deployment mg create --name "$(Build.BuildId)" --management-group-id Hello--location WestUS --template-file "$(Pipeline.Workspace)/blueprints/defentions/network.json"
+                      exit $LASTEXITCODE;
+
+                - task: AzureCLI@2
+                  displayName: Devops Blueprint
+                  inputs:
+                    azureSubscription: 'yesoreyeram-demo-helloplatform_governance'
+                    scriptType: 'pscore'
+                    scriptLocation: 'inlineScript'
+                    inlineScript: |
+                      az deployment mg create --name "$(Build.BuildId)" --management-group-id Hello--location WestUS --template-file "$(Pipeline.Workspace)/blueprints/defentions/devops.json"
+                      exit $LASTEXITCODE;
+  

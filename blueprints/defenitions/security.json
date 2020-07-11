@@ -1,0 +1,24 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {},
+    "functions": [],
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Blueprint/blueprints",
+            "apiVersion": "2017-11-11-preview",
+            "name": "security",
+            "properties": {
+                "displayName": "Security",
+                "description": "Security blueprint",
+                "targetScope": "subscription",
+                "layout": {},
+                "parameters": {},
+                "resourceGroups": {},
+                "versions": {}
+            }
+        }
+    ],
+    "outputs": {}
+}
