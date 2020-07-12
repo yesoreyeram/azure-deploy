@@ -7,16 +7,40 @@
     "resources": [
         {
             "type": "Microsoft.Blueprint/blueprints",
-            "apiVersion": "2017-11-11-preview",
+            "apiVersion": "2018-11-01-preview",
             "name": "monitoring-infrastructure",
             "properties": {
                 "displayName": "Monitoring Infrastructure",
                 "description": "Blueprint for monitoring infrastructure, provides cental monitoring workspaces and monitoring resources",
                 "targetScope": "subscription",
-                "layout": {},
                 "parameters": {},
-                "resourceGroups": {},
+                "resourceGroups": {
+                    "rg-monitoring-global": {
+                        "name": "rg-monitoring-global",
+                        "location": "westeurope",
+                        "tags": {
+                            "Platform": "Monitoring & Alerting"
+                        }
+                    }
+                },
                 "versions": {}
+            }
+        },
+        {
+            "type": "Microsoft.Blueprint/blueprints/artifacts",
+            "apiVersion": "2018-11-01-preview",
+            "name": "[concat('monitoring-infrastructure/','monitoring-global-resources')]",
+            "kind": "template",
+            "dependsOn": [ "monitoring-infrastructure" ],
+            "properties": {
+                "resourceGroup": "rg-monitoring-global",
+                "template": {
+                      "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                      "contentVersion": "1.0.0.0",
+                      "resources": [
+                      ]
+                },
+                "parameters": {}
             }
         }
     ],
